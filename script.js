@@ -1,3 +1,27 @@
+// Initialisation EmailJS
+document.addEventListener("DOMContentLoaded", function () {
+  emailjs.init("service_bq51psq"); // Service ID fourni
+
+  document.getElementById("contact-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      var templateParams = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          message: document.getElementById("message").value
+      };
+
+      emailjs.send("service_bq51psq", "TON_TEMPLATE_ID", templateParams)
+          .then(function (response) {
+              console.log("Email envoyé avec succès", response);
+              document.getElementById("status-message").innerText = "Message envoyé avec succès ! ✅";
+              document.getElementById("contact-form").reset();
+          }, function (error) {
+              console.log("Erreur lors de l'envoi", error);
+              document.getElementById("status-message").innerText = "Une erreur est survenue ❌";
+          });
+  });
+});
 // Gestion du menu latéral
 var sidenav = document.getElementById("mySidenav");
 var openBtn = document.getElementById("openBtn");
