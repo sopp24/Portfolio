@@ -1,6 +1,6 @@
 // Initialisation EmailJS
 document.addEventListener("DOMContentLoaded", function () {
-  emailjs.init("service_bq51psq"); // Service ID fourni
+  emailjs.init("LAVHROSudqGZXICfi"); // Service ID fourni
 
   document.getElementById("contact-form").addEventListener("submit", function (event) {
       event.preventDefault();
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
           message: document.getElementById("message").value
       };
 
-      emailjs.send("service_bq51psq", "TON_TEMPLATE_ID", templateParams)
+      emailjs.send("service_bq51psq", "template_ohk6pkb", templateParams)
           .then(function (response) {
               console.log("Email envoyé avec succès", response);
               document.getElementById("status-message").innerText = "Message envoyé avec succès ! ✅";
