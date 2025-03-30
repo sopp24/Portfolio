@@ -69,4 +69,12 @@ document.querySelectorAll(".item").forEach(item => {
   });
 });
 
+function copyToClipboard(element) {
+  const text = element.innerText; // Récupère le texte du mot
+  navigator.clipboard.writeText(text).then(() => {
+      alert("Texte copié : " + text); // Confirmation
+  }).catch(err => {
+      console.error("Erreur de copie", err);
+  });
+}
 
