@@ -59,7 +59,7 @@ document.querySelectorAll(".item").forEach(item => {
       
       // Ajoute la classe active à l'image suivante
       images[index].classList.add("active");
-    }, 3000); // Intervalle de 3 secondes
+    }, 1000); // Intervalle de 3 secondes
   });
 
   item.addEventListener("mouseleave", () => {
