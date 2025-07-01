@@ -190,7 +190,18 @@ h1 {
   font-weight: bold;
 }
 
-p:hover {
+h1:hover,
+h2:hover,
+h3:hover,
+h4:hover,
+h5:hover,
+h6:hover,
+p:hover,
+textarea:hover,
+.pcontact:hover,
+span:hover,
+a:hover,
+label:hover {
   cursor: text;
 }
 
