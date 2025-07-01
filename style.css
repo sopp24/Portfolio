@@ -200,7 +200,6 @@ p:hover,
 textarea:hover,
 .pcontact:hover,
 span:hover,
-a:hover,
 label:hover {
   cursor: text;
 }
