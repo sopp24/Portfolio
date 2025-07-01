@@ -190,20 +190,6 @@ h1 {
   font-weight: bold;
 }
 
-h1:hover,
-h2:hover,
-h3:hover,
-h4:hover,
-h5:hover,
-h6:hover,
-p:hover,
-textarea:hover,
-.pcontact:hover,
-span:hover,
-label:hover {
-  cursor: text;
-}
-
 h2 {
   font-size: 50px;
   color: #000000;
