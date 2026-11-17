@@ -1,80 +1,107 @@
-// Initialisation EmailJS
+// Portfolio — initialisation progressive des interactions.
 document.addEventListener("DOMContentLoaded", function () {
-  emailjs.init("LAVHROSudqGZXICfi"); // Service ID fourni
+  const form = document.getElementById("contactForm");
+  const formMessage = document.getElementById("formMessage");
 
-  document.getElementById("contact-form").addEventListener("submit", function (event) {
+  // EmailJS n'est chargé que sur les pages Contact.
+  if (form && window.emailjs) {
+    emailjs.init("LAVHROSudqGZXICfi");
+
+    form.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      var templateParams = {
-          name: document.getElementById("name").value,
-          email: document.getElementById("email").value,
-          message: document.getElementById("message").value
+      const templateParams = {
+        name: document.getElementById("name")?.value?.trim() || "",
+        email: document.getElementById("email")?.value?.trim() || "",
+        message: document.getElementById("message")?.value?.trim() || ""
       };
 
+      if (formMessage) formMessage.textContent = "Envoi en cours…";
+
       emailjs.send("service_bq51psq", "template_ohk6pkb", templateParams)
-          .then(function (response) {
-              console.log("Email envoyé avec succès", response);
-              document.getElementById("status-message").innerText = "Message envoyé avec succès ! ✅";
-              document.getElementById("contact-form").reset();
-          }, function (error) {
-              console.log("Erreur lors de l'envoi", error);
-              document.getElementById("status-message").innerText = "Une erreur est survenue ❌";
-          });
+        .then(function () {
+          if (formMessage) formMessage.textContent = "Message envoyé avec succès !";
+          form.reset();
+        })
+        .catch(function (error) {
+          console.error("Erreur lors de l'envoi", error);
+          if (formMessage) formMessage.textContent = "Une erreur est survenue. Réessaie plus tard.";
+        });
+    });
+  }
+
+  // Navigation mobile : certains écrans peuvent ne pas afficher le menu.
+  const sidenav = document.getElementById("mySidenav");
+  const openBtn = document.getElementById("openBtn");
+  const closeBtn = document.getElementById("closeBtn");
+
+  if (sidenav && openBtn && closeBtn) {
+    openBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+      sidenav.classList.add("active");
+    });
+
+    closeBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+      sidenav.classList.remove("active");
+    });
+  }
+
+  // Diaporama au survol : ignorer proprement les cartes sans image.
+  document.querySelectorAll(".item").forEach(function (item) {
+    const images = item.querySelectorAll(".image-container img");
+    if (!images.length) return;
+
+    let index = 0;
+    let interval;
+    images[0].classList.add("active");
+    if (images.length < 2) return;
+
+    item.addEventListener("mouseenter", function () {
+      clearInterval(interval);
+      interval = setInterval(function () {
+        images[index].classList.remove("active");
+        index = (index + 1) % images.length;
+        images[index].classList.add("active");
+      }, 1000);
+    });
+
+    item.addEventListener("mouseleave", function () {
+      clearInterval(interval);
+      images.forEach(function (img) { img.classList.remove("active"); });
+      index = 0;
+      images[0].classList.add("active");
+    });
   });
 });
-// Gestion du menu latéral
-var sidenav = document.getElementById("mySidenav");
-var openBtn = document.getElementById("openBtn");
-var closeBtn = document.getElementById("closeBtn");
 
-openBtn.onclick = openNav;
-closeBtn.onclick = closeNav;
-
-/* Ouvre le menu latéral */
-function openNav() {
-  sidenav.classList.add("active");
-}
-
-/* Ferme le menu latéral */
-function closeNav() {
-  sidenav.classList.remove("active");
-}
-
-document.querySelectorAll(".item").forEach(item => {
-  const images = item.querySelectorAll(".image-container img");
-  let index = 0;
-  let interval;
-
-  // Assure que la première image est visible au chargement
-  images[0].classList.add("active");
-
-  item.addEventListener("mouseenter", () => {
-    clearInterval(interval); // Réinitialise le timer pour les transitions
-    interval = setInterval(() => {
-      // Retire la classe active de l'image actuelle
-      images[index].classList.remove("active");
-      
-      // Passe à l'image suivante
-      index = (index + 1) % images.length;
-      
-      // Ajoute la classe active à l'image suivante
-      images[index].classList.add("active");
-    }, 1000); // Intervalle de 3 secondes
-  });
-
-  item.addEventListener("mouseleave", () => {
-    clearInterval(interval); // Arrête le changement d'images lorsque la souris quitte l'élément
-    images.forEach(img => img.classList.remove("active")); // Enlève la classe active de toutes les images
-    images[0].classList.add("active"); // Remet l'image de base
-  });
-});
-
+// Fonction utilisée par les liens « cliquer pour copier » des pages Contact.
 function copyToClipboard(element) {
-  const text = element.innerText; // Récupère le texte du mot
-  navigator.clipboard.writeText(text).then(() => {
-      alert("Texte copié : " + text); // Confirmation
-  }).catch(err => {
-      console.error("Erreur de copie", err);
-  });
-}
+  const text = element?.innerText || "";
+  if (!text) return;
 
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).then(function () {
+      alert("Texte copié : " + text);
+    }).catch(function (error) {
+      console.error("Erreur de copie", error);
+    });
+    return;
+  }
+
+  const temporary = document.createElement("textarea");
+  temporary.value = text;
+  temporary.setAttribute("readonly", "");
+  temporary.style.position = "absolute";
+  temporary.style.left = "-9999px";
+  document.body.appendChild(temporary);
+  temporary.select();
+  try {
+    document.execCommand("copy");
+    alert("Texte copié : " + text);
+  } catch (error) {
+    console.error("Erreur de copie", error);
+  } finally {
+    temporary.remove();
+  }
+}
