@@ -410,3 +410,47 @@ footer .logofooter {
 
 
 
+
+/* Portfolio — navigation et contenu ajustés aux écrans actuels */
+html { scroll-padding-top: 100px; }
+header {
+  height: auto;
+  min-height: 76px;
+  padding: 8px clamp(14px, 3vw, 36px);
+}
+.logo { max-width: clamp(76px, 9vw, 124px); max-height: 68px; object-fit: contain; }
+.header-text { font-size: clamp(13px, 1.2vw, 18px); }
+.main-content {
+  width: min(1200px, calc(100% - 36px));
+  padding: clamp(110px, 14vh, 156px) 0 54px;
+}
+.container { align-items: stretch; gap: clamp(16px, 2.4vw, 32px); }
+.container > * { min-width: 0; }
+.sidenav { width: min(290px, 86vw); left: max(-290px, -86vw); }
+.sidenav.active { left: 0; }
+.sidenav a { min-height: 46px; display: flex; align-items: center; font-size: 17px; }
+input, select, textarea { max-width: 100%; }
+input:not([type=checkbox]), select, textarea { font-size: 16px; }
+button { min-height: 44px; }
+footer { height: auto; min-height: 170px; padding: 30px 16px; }
+footer .logos-container { flex-wrap: wrap; gap: 14px; }
+footer .logofooter { max-width: 62px; max-height: 54px; object-fit: contain; }
+@media (max-width: 768px) {
+  header { min-height: 70px; padding: 7px 14px; }
+  .logo { max-width: 76px; max-height: 56px; }
+  .header-text { right: 14px; max-width: 44%; font-size: 12px; line-height: 1.3; }
+  .main-content { width: calc(100% - 28px); padding: 94px 0 38px; }
+  .container { gap: 18px; }
+  .sidenav { padding-top: 74px; }
+  .sidenav a { padding: 10px 18px 10px 24px; font-size: 17px; }
+  footer { min-height: 140px; }
+}
+@media (max-width: 480px) {
+  header { min-height: 64px; }
+  .logo { max-width: 60px; max-height: 48px; }
+  .header-text { font-size: 11px; }
+  .main-content { width: calc(100% - 24px); padding-top: 82px; }
+  .container { flex-direction: column; }
+  textarea { min-height: 120px; }
+  button { width: auto; min-width: 44px; }
+}
